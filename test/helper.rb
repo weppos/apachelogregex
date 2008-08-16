@@ -17,7 +17,7 @@ $:.unshift(File.dirname(__FILE__) + '/../lib')
 
 require 'rubygems'
 require 'test/unit'
-require 'apache_log_parser'
+require 'apache_log_regex'
 
 # testcase file path
 TESTCASES_PATH   = File.dirname(__FILE__) + '/testcases' unless defined?(TESTCASES_PATH)
