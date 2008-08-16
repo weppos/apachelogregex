@@ -1,10 +1,10 @@
 #
-# = Apache Log Parser
+# = Apache Log Regex
 #
 # Ruby parser for Apache log files based on regular expressions.
 #
 # Category::   
-# Package::    ApacheLogParser
+# Package::    ApacheLogRegex
 # Author::     Simone Carletti <weppos@weppos.net>
 #
 #--

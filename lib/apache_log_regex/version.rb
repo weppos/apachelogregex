@@ -12,5 +12,14 @@
 #++
 
 
-require  File.dirname(__FILE__) + '/helper'
-Dir.glob(File.dirname(__FILE__) + '/unit/**/*_test.rb').sort.each { |unit| require unit }
+class ApacheLogRegex
+
+  module Version #:nodoc:
+    MAJOR = 0
+    MINOR = 0
+    TINY = 0
+
+    STRING = [MAJOR, MINOR, TINY].join('.')
+  end
+
+end
