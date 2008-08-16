@@ -3,9 +3,10 @@
 #
 # Ruby parser for Apache log files based on regular expressions.
 #
-# Category::   
-# Package::    ApacheLogRegex
-# Author::     Simone Carletti <weppos@weppos.net>
+# Category::    
+# Package::     ApacheLogRegex
+# Author::      Simone Carletti <weppos@weppos.net>
+# License::     
 #
 #--
 # SVN: $Id$
@@ -18,10 +19,12 @@ require 'apache_log_regex/version'
 #
 # = Apache Log Regex
 #
-# Parse a line from an Apache logfile into a hash.
+# Parse a line from an Apache log file into a hash.
 #
 # This is a Ruby port of Peter Hickman's Apache::LogRegex 1.4 Perl module,
 # available at http://cpan.uwinnipeg.ca/~peterhi/Apache-LogRegex.
+# 
+# FIXME: missing some basic usage docs
 #
 class ApacheLogRegex
   
