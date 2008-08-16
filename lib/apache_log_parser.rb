@@ -1,7 +1,7 @@
 #
 # = Apache Log Parser
 #
-# Parser for Apache log files based on regular expressions.
+# Ruby parser for Apache log files based on regular expressions.
 #
 # Category::   
 # Package::    ApacheLogParser
@@ -30,13 +30,13 @@ class ApacheLogParser
   class ParseError < RuntimeError; end
 
 
-  # Log file format as provided on initialization
+  # The normalized log file format.
   attr_reader :format
 
-  # Regexp instance used for parsing a log line
+  # Regexp instance used for parsing a log line.
   attr_reader :regexp
 
-  # Log fields' names
+  # The list of field names that extracted from log format.
   attr_reader :names
 
 
@@ -70,40 +70,39 @@ class ApacheLogParser
   def parse!(line)
     parse(line) || raise(ParseError, "Invalid format `%s` for line `%s`" % [format, line])
   end
-
-  def rename_this_name(name)
-    name
-  end
-
   
   protected
+    
+    # 
+    # Overwrite this method if you want to use some human-readable name
+    # for log fields.
+    # This method is called only once at <tt>parse_format</tt> time.
+    #
+    def rename_this_name(name)
+      name
+    end
 
     # Parse log <tt>format</tt> into a suitable Regexp instance.
     def parse_format(format)
-      f = format.to_s
-      f.chomp!                # remove carriage return
-      f.strip!                # remove leading and trailing space
-      f.gsub!(/[ \t]+/, ' ')  # replace tabulations or spaces with a space
+      format = format.to_s
+      format.chomp!                # remove carriage return
+      format.strip!                # remove leading and trailing space
+      format.gsub!(/[ \t]+/, ' ')  # replace tabulations or spaces with a space
 
-      find_quotes        = proc { |string| string =~ /^\\"/ } 
-      find_referreragent = proc { |string| string =~ /Referer|User-Agent/ }
-      find_percent       = proc { |string| string =~ /^%.*t$/ }
-      strip_left_quotes  = proc { |string| string.gsub(/^\\"/, '') }
-      strip_right_quotes = proc { |string| string.gsub(/\\"$/, '') }
+      strip_quotes = proc { |string| string.gsub(/^\\"/, '').gsub(/\\"$/, '') }
+      find_quotes  = proc { |string| string =~ /^\\"/ } 
+      find_percent = proc { |string| string =~ /^%.*t$/ }
+      find_referrer_or_useragent = proc { |string| string =~ /Referer|User-Agent/ }
       
-      pattern = f.split(' ').map do |element|
+      pattern = format.split(' ').map do |element|
         has_quotes = !!find_quotes.call(element)
+        element = strip_quotes.call(element) if has_quotes
         
-        if has_quotes
-          element = strip_left_quotes.call(element)
-          element = strip_right_quotes.call(element)
-        end
-
         self.names << rename_this_name(element)
 
         case
           when has_quotes
-            if element == '%r' or find_referreragent.call(element)
+            if element == '%r' or find_referrer_or_useragent.call(element)
               /"([^"\\]*(?:\\.[^"\\]*)*)"/
             else
               '\"([^\"]*)\"'
@@ -118,6 +117,7 @@ class ApacheLogParser
       end.join(' ')
 
       @regexp = Regexp.new("^#{pattern}$")
+      format
     end
 
 end

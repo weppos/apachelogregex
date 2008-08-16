@@ -1,7 +1,7 @@
 #
 # = Apache Log Parser
 #
-# Parser for Apache log files based on regular expressions.
+# Ruby parser for Apache log files based on regular expressions.
 #
 # Category::   
 # Package::    ApacheLogParser
