@@ -25,6 +25,8 @@ require 'apache_log_regex/version'
 # available at http://cpan.uwinnipeg.ca/~peterhi/Apache-LogRegex.
 # 
 # FIXME: missing some basic usage docs
+# FIXME: log line must be stripped
+# FIXME: shift first match element or add a line index to the names array
 #
 class ApacheLogRegex
   
