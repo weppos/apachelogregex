@@ -44,8 +44,8 @@ FIXME: missing docs
 This library is essentially a Ruby port of Apache::LogRegex Perl library.
 A big thanks goes to Peter Hickman, the author of the original package. This Ruby GEM would probably not exists without your contribution!
 
-I also want to thank you Harry Fuecks and [FIXME:missing name], 
-the authors of the Python[http://code.google.com/p/apachelog/] and PHP[FIXME: missing link] ports.
+I also want to thank you Harry Fuecks and Hamish Morgan, 
+the authors of the Python[http://code.google.com/p/apachelog/] and PHP[http://kitty0.org/] ports.
 First of all they gave me the inspiration to translate the original Perl code to Ruby, 
 as soon as I discovered nobody did it before me.
 Last but not least, their library have been extremely useful to help me understand some obscure Perl statements
