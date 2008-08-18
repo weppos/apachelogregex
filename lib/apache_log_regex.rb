@@ -25,8 +25,6 @@ require 'apache_log_regex/version'
 # available at http://cpan.uwinnipeg.ca/~peterhi/Apache-LogRegex.
 # 
 # FIXME: missing some basic usage docs
-# FIXME: log line must be stripped
-# FIXME: shift first match element or add a line index to the names array
 #
 class ApacheLogRegex
   
@@ -71,11 +69,13 @@ class ApacheLogRegex
   # Returns <tt>nil</tt> if <tt>line</tt> doesn't match current log <tt>format</tt>.
   #
   def parse(line)
-    row = line.to_s.chomp
+    row = line.to_s
+    row.chomp!
+    row.strip!
     return unless match = regexp.match(row)
 
     data = {}
-    names.zip(match.to_a) { |field, value| data[field] = value }
+    names.each_with_index { |field, index| data[field] = match[index + 1] } # [0] == line
     data
   end
 
@@ -86,6 +86,7 @@ class ApacheLogRegex
   def parse!(line)
     parse(line) || raise(ParseError, "Invalid format `%s` for line `%s`" % [format, line])
   end
+  
   
   protected
     
