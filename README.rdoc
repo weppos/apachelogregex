@@ -4,6 +4,12 @@ Apache Log Regex is a Ruby port of Peter Hickman's Apache::LogRegex 1.4 Perl mod
 available at http://cpan.uwinnipeg.ca/~peterhi/Apache-LogRegex.
 It provides functionalities to parse a line from an Apache log file into a hash.
 
+== WARNING
+
+This library has not been released yet. This program seems stable, but should be considered a development release.
+
+Changes to specifications may occur at any time and without notice. For full list of changes look at the CHANGELOG file. 
+
 
 == Authors
 
