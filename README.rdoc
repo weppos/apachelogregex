@@ -9,6 +9,8 @@ It provides functionalities to parse a line from an Apache log file into a hash.
 
 * Ruby >= 1.8.6 (not tested with previous versions)
 
+ApacheLogRegex is compatible with Ruby 1.9.1.
+
 
 == Overview
 
