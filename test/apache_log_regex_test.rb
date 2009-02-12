@@ -13,7 +13,7 @@
 #++
 
 
-require File.dirname(__FILE__) + '/../helper'
+require 'test_helper'
 
 
 class ApacheLogRegexTest < Test::Unit::TestCase

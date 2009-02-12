@@ -1,5 +1,6 @@
 = Changelog
 
-== development
+
+== master
 
 * Initial public release.

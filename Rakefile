@@ -1,18 +1,20 @@
 require 'rubygems'
+require 'rake'
+
+gem     'echoe', '>= 3.1'
 require 'echoe'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/lib")
 require 'apache_log_regex'
 
- 
+
 # Common package properties
-PKG_NAME = ENV['PKG_NAME'] || ApacheLogRegex::GEM
+PKG_NAME    = ENV['PKG_NAME']    || ApacheLogRegex::GEM
 PKG_VERSION = ENV['PKG_VERSION'] || ApacheLogRegex::VERSION
 PKG_SUMMARY = "Ruby parser for Apache log files based on regular expressions."
-PKG_FILES = FileList.new("{lib,test}/**/*.rb") do |fl|
-  fl.exclude 'TODO'
-  fl.include %w(README.rdoc CHANGELOG.rdoc LICENSE.rdoc)
-  fl.include %w(Rakefile setup.rb)
+PKG_FILES   = FileList.new("{lib,test}/**/*.rb") do |files|
+  files.include %w(README.rdoc CHANGELOG.rdoc LICENSE.rdoc)
+  files.include %w(Rakefile setup.rb)
 end
 RUBYFORGE_PROJECT = 'apachelogregex'
  
@@ -38,7 +40,7 @@ Echoe.new(PKG_NAME, PKG_VERSION) do |p|
   p.rdoc_pattern  = /^(lib|CHANGELOG.rdoc|README.rdoc)/
 
   p.development_dependencies = ["rake  >=0.8",
-                                "echoe >=3"]
+                                "echoe >=3.1"]
 end
 
 
