@@ -36,11 +36,11 @@ Echoe.new(PKG_NAME, PKG_VERSION) do |p|
   p.project       = RUBYFORGE_PROJECT
 
   p.need_zip      = true
-  p.rcov_options  = ["-x Rakefile -x rcov"]
+  p.rcov_options  = ["--main << README.rdoc -x Rakefile -x rcov"]
   p.rdoc_pattern  = /^(lib|CHANGELOG.rdoc|README.rdoc)/
 
-  p.development_dependencies = ["rake  >=0.8",
-                                "echoe >=3.1"]
+  p.development_dependencies += ["rake  >=0.8",
+                                 "echoe >=3.1"]
 end
 
 
