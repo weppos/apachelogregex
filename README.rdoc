@@ -4,30 +4,6 @@ Apache Log Regex is a Ruby port of Peter Hickman's Apache::LogRegex 1.4 Perl mod
 available at http://cpan.uwinnipeg.ca/~peterhi/Apache-LogRegex.
 It provides functionalities to parse a line from an Apache log file into a hash.
 
-** WARNING **
-
-This library has not been released yet. This program seems stable, but should be considered a development release.
-Changes to specifications may occur at any time and without notice. For the full list of changes look at the CHANGELOG file. 
-
-
-== Authors
-
-{Simone Carletti}[http://www.simonecarletti.com/] <weppos@weppos.net>
-
-If you like this software, consider to {recommend me}[http://www.workingwithrails.com/person/11967-simone-carletti] at Working with Rails.
-
-
-== Website
-
-* {Homepage}[http://code.simonecarletti.com/apachelogregex]
-* {API}[http://apachelogregex.rubyforge.org/]
-
-
-== Source
-
-* {at GitHub}[http://github.com/weppos/apachelogregex/]
-* {at RubyForge}[http://rubyforge.org/projects/apachelogregex/]
-
 
 == Dependencies
 
@@ -36,12 +12,43 @@ If you like this software, consider to {recommend me}[http://www.workingwithrail
 
 == Overview
 
-FIXME: missing docs
+Apache Log Regex is designed to be a simple class to parse Apache log files. 
+
+It takes an Apache logging format and generates a regular expression which is used to parse a line from a log file and returns a Hash with keys corresponding to the fields defined in the log format.
+The log format should match the one defined in your Apache configuration file with the LogFormat directive.
 
 
-== Usage
+== Example Usage
 
-FIXME: missing docs
+The following one is the most simple example usage. 
+It tries to parse the `access.log` file and echoes each parsed line.
+
+  format = '%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"'
+  parser = ApacheLogRegex.new(format)
+  
+  File.foreach('/var/apache/access.log') do |line|
+    begin
+      parser.parse(line)
+      # {"%r"=>"GET /blog/index.xml HTTP/1.1", "%h"=>"87.18.183.252", ... }
+    rescue ApacheLogRegex::ParseError => e
+      puts "Error parsing log file: " + e.message
+    end
+  end
+
+More often, you might want to collect parsed lines and use them later in your program.
+The following example iterates all log lines, parses them and returns an array of Hash with the results.
+
+  format = '%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"'
+  parser = ApacheLogRegex.new(format)
+
+  File.readlines('/var/apache/access.log').collect do |line|
+    begin
+      parser.parse(line)
+      # {"%r"=>"GET /blog/index.xml HTTP/1.1", "%h"=>"87.18.183.252", ... }
+    rescue ApacheLogRegex::ParseError => e
+      nil
+    end
+  end
 
 
 == Acknowledgments
@@ -57,16 +64,32 @@ Last but not least, their library have been extremely useful to help me understa
 from the original package.
 
 
+== Author
+
+{Simone Carletti}[http://www.simonecarletti.com/] <weppos@weppos.net>
+
+
+== Resources
+
+* {Homepage}[http://code.simonecarletti.com/apachelogregex]
+* {API}[http://apachelogregex.rubyforge.org/]
+* {GitHub}[http://github.com/weppos/apachelogregex/]
+* {RubyForge}[http://rubyforge.org/projects/apachelogregex/]
+
+
 == FeedBack and Bug reports
 
-Feel free to email {Simone Carletti}[mailto:weppos@weppos.net] 
-with any questions or feedback.
+Feel free to email {Simone Carletti}[mailto:weppos@weppos.net] with any questions or feedback.
 
-Please submit your bug reports to the Redmine installation for WWW::Delicious
-available at http://code.simonecarletti.com/www-delicious.
+Please use the {Ticket System}[http://code.simonecarletti.com/projects/show/apachelogregex] to submit bug reports or feature request.
 
 
 == Changelog
 
-See CHANGELOG for details.
+See the CHANGELOG.rdoc file for details.
+
+
+== License
+
+Copyright (c) 2008-2009 Simone Carletti, ApacheLogRegex is released under the MIT license. 
 

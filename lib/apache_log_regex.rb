@@ -6,7 +6,7 @@
 # Category::    
 # Package::     ApacheLogRegex
 # Author::      Simone Carletti <weppos@weppos.net>
-# License::     
+# License::     MIT License
 #
 #--
 # SVN: $Id$
@@ -24,16 +24,43 @@ require 'apache_log_regex/version'
 # This is a Ruby port of Peter Hickman's Apache::LogRegex 1.4 Perl module,
 # available at http://cpan.uwinnipeg.ca/~peterhi/Apache-LogRegex.
 # 
-# FIXME: missing some basic usage docs
-#
+# == Example Usage
+# 
+# The following one is the most simple example usage. 
+# It tries to parse the `access.log` file and echoes each parsed line.
+# 
+#   format = '%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"'
+#   parser = ApacheLogRegex.new(format)
+#   
+#   File.foreach('/var/apache/access.log') do |line|
+#     begin
+#       parser.parse(line)
+#       # {"%r"=>"GET /blog/index.xml HTTP/1.1", "%h"=>"87.18.183.252", ... }
+#     rescue ApacheLogRegex::ParseError => e
+#       puts "Error parsing log file: " + e.message
+#     end
+#   end
+# 
+# More often, you might want to collect parsed lines and use them later in your program.
+# The following example iterates all log lines, parses them and returns an array of Hash with the results.
+# 
+#   format = '%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"'
+#   parser = ApacheLogRegex.new(format)
+# 
+#   File.readlines('/var/apache/access.log').collect do |line|
+#     begin
+#       parser.parse(line)
+#       # {"%r"=>"GET /blog/index.xml HTTP/1.1", "%h"=>"87.18.183.252", ... }
+#     rescue ApacheLogRegex::ParseError => e
+#       nil
+#     end
+#   end
+# 
 class ApacheLogRegex
   
   NAME            = 'ApacheLogRegex'
   GEM             = 'apachelogregex'
   AUTHOR          = 'Simone Carletti <weppos@weppos.net>'
-  VERSION         = defined?(Version) ? Version::STRING : nil
-  STATUS          = 'alpha'
-  BUILD           = ''.match(/(\d+)/).to_a.first
   
   
   #
@@ -45,6 +72,17 @@ class ApacheLogRegex
   
   
   # The normalized log file format.
+  # Some common formats:
+  # 
+  #   Common Log Format (CLF)
+  #   '%h %l %u %t \"%r\" %>s %b'
+  # 
+  #   Common Log Format with Virtual Host
+  #   '%v %h %l %u %t \"%r\" %>s %b'
+  # 
+  #   NCSA extended/combined log format
+  #   '%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"'
+  # 
   attr_reader :format
 
   # Regexp instance used for parsing a log line.
@@ -54,20 +92,16 @@ class ApacheLogRegex
   attr_reader :names
 
 
-  #
   # Initializes a new parser instance with given log <tt>format</tt>.
-  #
   def initialize(format)
     @regexp = nil
     @names  = []
     @format = parse_format(format)
   end
 
-  #
   # Parses <tt>line</tt> according to current log <tt>format</tt>
   # and returns an hash of log field => value on success.
   # Returns <tt>nil</tt> if <tt>line</tt> doesn't match current log <tt>format</tt>.
-  #
   def parse(line)
     row = line.to_s
     row.chomp!
@@ -79,10 +113,13 @@ class ApacheLogRegex
     data
   end
 
-  #
   # Same as <tt>ApacheLogRegex#parse</tt> but raises a <tt>ParseError</tt>
   # if <tt>line</tt> doesn't match current <tt>format</tt>.
-  #
+  # 
+  # ==== Raises
+  # 
+  # ParseError:: if <tt>line</tt> doesn't match current <tt>format</tt>
+  # 
   def parse!(line)
     parse(line) || raise(ParseError, "Invalid format `%s` for line `%s`" % [format, line])
   end
@@ -90,11 +127,8 @@ class ApacheLogRegex
   
   protected
     
-    # 
-    # Overwrite this method if you want to use some human-readable name
-    # for log fields.
+    # Overwrite this method if you want to use some human-readable name for log fields.
     # This method is called only once at <tt>parse_format</tt> time.
-    #
     def rename_this_name(name)
       name
     end
