@@ -73,7 +73,7 @@ class ApacheLogRegexTest < Test::Unit::TestCase
     assert_match_expected_hash(expected, results)
   end
   
-  def test_parse_line_returns_nil_on_invalid_format
+  def test_parse_line_should_return_nil_on_invalid_format
     results = @parser.parse('foobar')
     assert_nil(results)
   end
@@ -89,7 +89,7 @@ class ApacheLogRegexTest < Test::Unit::TestCase
     assert_equal(@parser.parse(testcase), @parser.parse!(testcase))
   end
   
-  def test_stricparse_line_raises_on_invalid_format
+  def test_stricparse_line_should_raise_on_invalid_format
     error = assert_raise(ApacheLogRegex::ParseError) { results = @parser.parse!('foobar') }
     assert_match(/Invalid format/, error.message)
   end

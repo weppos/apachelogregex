@@ -1,6 +1,5 @@
 = Changelog
 
+== Release 0.1.0
 
-== master
-
-* Initial public release.
+* Initial public release based on Apache::LogRegex 1.4.
