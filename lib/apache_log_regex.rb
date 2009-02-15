@@ -33,12 +33,8 @@ require 'apache_log_regex/version'
 #   parser = ApacheLogRegex.new(format)
 #   
 #   File.foreach('/var/apache/access.log') do |line|
-#     begin
-#       parser.parse(line)
-#       # {"%r"=>"GET /blog/index.xml HTTP/1.1", "%h"=>"87.18.183.252", ... }
-#     rescue ApacheLogRegex::ParseError => e
-#       puts "Error parsing log file: " + e.message
-#     end
+#     parser.parse(line)
+#     # {"%r"=>"GET /blog/index.xml HTTP/1.1", "%h"=>"87.18.183.252", ... }
 #   end
 # 
 # More often, you might want to collect parsed lines and use them later in your program.
@@ -48,13 +44,21 @@ require 'apache_log_regex/version'
 #   parser = ApacheLogRegex.new(format)
 # 
 #   File.readlines('/var/apache/access.log').collect do |line|
-#     begin
-#       parser.parse(line)
-#       # {"%r"=>"GET /blog/index.xml HTTP/1.1", "%h"=>"87.18.183.252", ... }
-#     rescue ApacheLogRegex::ParseError => e
-#       nil
-#     end
+#     parser.parse(line)
+#     # {"%r"=>"GET /blog/index.xml HTTP/1.1", "%h"=>"87.18.183.252", ... }
 #   end
+# 
+# If you want more control over the parser you can use the <tt>parse!</tt> method. 
+# It raises a <tt>ParseError</tt> if given line doesn't match the log format.
+# 
+#   common_log_format = '%h %l %u %t \"%r\" %>s %b'
+#   parser = ApacheLogRegex.new(common_log_format)
+#   
+#   # No exception
+#   parser.parse(line) # => nil
+#   
+#   # Raises an exception
+#   parser.parse!(line) # => ParseError
 # 
 class ApacheLogRegex
   
