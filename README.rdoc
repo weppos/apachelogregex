@@ -71,23 +71,17 @@ Last but not least, their library have been extremely useful to help me understa
 from the original package.
 
 
-== Credits
+== Author
 
-Author:: {Simone Carletti}[http://www.simonecarletti.com/] <weppos@weppos.net>
+* {Simone Carletti}[http://www.simonecarletti.com] <weppos@weppos.net>
 
 
 == Resources
 
 * {Homepage}[http://code.simonecarletti.com/apachelogregex]
-* {API}[http://apachelogregex.rubyforge.org/]
-* {GitHub}[http://github.com/weppos/apachelogregex/]
-* {RubyForge}[http://rubyforge.org/projects/apachelogregex/]
-
-
-== FeedBack and Bug reports
-
-Feel free to email {Simone Carletti}[mailto:weppos@weppos.net] with any questions or feedback.
-Please use the {Ticket System}[http://code.simonecarletti.com/apachelogregex] to submit bug reports or feature request.
+* {API}[http://apachelogregex.rubyforge.org]
+* {Source}[http://github.com/weppos/apachelogregex]
+* {Bugs & Features}[http://github.com/weppos/apachelogregex/issues]
 
 
 == Changelog
