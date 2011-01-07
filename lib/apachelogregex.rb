@@ -66,7 +66,11 @@ class ApacheLogRegex
   GEM             = 'apachelogregex'
   AUTHOR          = 'Simone Carletti <weppos@weppos.net>'
   
-  
+  NCSA_EXTENDED = '%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"'
+  COMBINED = NCSA_EXTENDED
+  CLF = '%h %l %u %t \"%r\" %>s %b'
+  CLF_VH = '%v %h %l %u %t \"%r\" %>s %b'
+
   #
   # = ParseError
   #
