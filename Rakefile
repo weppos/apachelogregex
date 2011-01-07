@@ -5,7 +5,7 @@ gem     'echoe', '>= 3.1'
 require 'echoe'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/lib")
-require 'apache_log_regex'
+require 'apachelogregex'
 
 
 # Common package properties
