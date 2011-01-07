@@ -99,12 +99,26 @@ class ApacheLogRegex
   # The list of field names that extracted from log format.
   attr_reader :names
 
+  class << self
+    def foreach(file_name, format = nil)
+      parser = ApacheLogRegex.new(format)
+      File.open(file_name, 'r') do |file|
+        while line = file.gets
+          yield line
+        end
+      end
+    end
+  end
 
   # Initializes a new parser instance with given log <tt>format</tt>.
-  def initialize(format)
+  def initialize(format = nil)
     @regexp = nil
     @names  = []
-    @format = parse_format(format)
+    if format.nil?
+      @format = parse_format(ApacheLogRegex::NCSA_EXTENDED)
+    else
+      @format = parse_format(format)
+    end
   end
 
   # Parses <tt>line</tt> according to current log <tt>format</tt>
