@@ -94,7 +94,17 @@ class ApacheLogRegexTest < Test::Unit::TestCase
     assert_match(/Invalid format/, error.message)
   end
   
+  def test_foreach_without_format
+    results = []
+    ApacheLogRegex.foreach("#{TESTCASES_PATH}/log.log"){ |r| results << r['%h'] }
+    assert_equal(%w(87.18.183.252 79.28.16.191 79.28.16.191 69.150.40.169 217.220.110.75), results)
+  end
   
+  def test_foreach_with_format
+    results = []
+    ApacheLogRegex.foreach("#{TESTCASES_PATH}/log.log", @format){ |r| results << r['%h'] }
+    assert_equal(%w(87.18.183.252 79.28.16.191 79.28.16.191 69.150.40.169 217.220.110.75), results)
+  end
   protected
   
     def read_testcase(filename)
